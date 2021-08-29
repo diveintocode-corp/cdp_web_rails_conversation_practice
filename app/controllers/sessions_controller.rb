@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
+  before_action :logged_in, only: [:new, :create], if: :logged_in?
 
   def new
   end
@@ -10,7 +11,7 @@ class SessionsController < ApplicationController
       log_in(user)
       redirect_to user_path(user.id)
     else
-      flash.now[:danger] = 'ログインに失敗しました'
+      flash.now[:danger] = 'メースアドレスまたはパスワードが違います'
       render :new
     end
   end
